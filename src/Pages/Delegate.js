@@ -7,8 +7,8 @@ import {
   Step,
   StepLabel,
 } from "@material-ui/core";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {Table, Modal} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Table, Modal } from "react-bootstrap";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   useForm,
@@ -16,7 +16,7 @@ import {
   FormProvider,
   useFormContext,
 } from "react-hook-form";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -33,24 +33,27 @@ const BasicForm = () => {
   const { control } = useFormContext();
   return (
     <>
-    {/* First name input field */}
+      {/* First name input field */}
       <Controller
         control={control}
         name="firstName"
         render={({ field }) => (
           <TextField
             id="first-name"
+            className="form-control"
             label="First Name"
             variant="outlined"
             placeholder="Enter Your First Name"
             fullWidth
-            margin="normal"
+            margin="narrow"
+            autoComplete="false"
             required
             {...field}
           />
         )}
       />
-  {/* Last name input field */}
+
+      {/* Last name input field */}
       <Controller
         control={control}
         name="lastName"
@@ -67,7 +70,7 @@ const BasicForm = () => {
           />
         )}
       />
-        {/* Organization name input field */}
+      {/* Organization name input field */}
       <Controller
         control={control}
         name="organizationName"
@@ -84,7 +87,7 @@ const BasicForm = () => {
           />
         )}
       />
-        {/* Job title input field */}
+      {/* Job title input field */}
       <Controller
         control={control}
         name="jobTitle"
@@ -126,7 +129,7 @@ const ContactForm = () => {
           />
         )}
       />
-  {/* Phone number input field */}
+      {/* Phone number input field */}
       <Controller
         control={control}
         name="phoneNumber"
@@ -156,77 +159,92 @@ const PaymentForm = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
-   
-     <div className="orderInfo">
-     <h3>Order Summary</h3>
-{/* Order summary table */}
-<Table color="#c4c4c4" style={{}} responsive="lg">
-  <thead>
-    <tr>
-      {/* Hard coded field but we shall generate from the database */}
-      <th>Number of Slots</th>
-      <th>&nbsp;&nbsp;</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <th>&nbsp;&nbsp;</th>
-      <td>kshs 1200</td>
-    </tr>
-  </tbody>
-</Table>
-<h3>Mode of Payment</h3>
+    <div className="orderInfo">
+      <h3>Order Summary</h3>
+      {/* Order summary table */}
+      <Table color="#c4c4c4" style={{}} responsive="lg">
+        <thead>
+          <tr>
+            {/* Hard coded field but we shall generate from the database */}
+            <th>Number of Slots</th>
+            <th>&nbsp;&nbsp;</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <th>&nbsp;&nbsp;</th>
+            <td>kshs 1200</td>
+          </tr>
+        </tbody>
+      </Table>
+      <h3>Mode of Payment</h3>
 
-{/* select mode of payment radio buttons */}
-<input type="radio" id="html" name="fav_language" value="HTML" />
-<label for="Mpesa">Mpesa</label>
-<br />
-<input type="radio" id="Mpesa" name="payment" value="Mpesa" />
-<label for="Paypal">Paypal</label>
-<br />
-<Button className="pay" onClick={handleShow}>
- Pay
-</Button>
+      {/* select mode of payment radio buttons */}
+      <input type="radio" id="html" name="fav_language" value="HTML" />
+      <label for="Mpesa">Mpesa</label>
+      <br />
+      <input type="radio" id="Mpesa" name="payment" value="Mpesa" />
+      <label for="Paypal">Paypal</label>
+      <br />
+      <Button className="pay" onClick={handleShow}>
+        Pay
+      </Button>
 
-{/* Mpesa payment modal */}
-<Modal show={show} onHide={handleClose}>
-  <Modal.Header closeButton>
-    <Modal.Title>Mpesa Payment</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
+      {/* Mpesa payment modal */}
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Mpesa Payment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <br />
+          <form action="mpesa.php" method="post">
+            <label>Enter Phone Number: </label>
+            <input
+              class="form-control"
+              type="number"
+              id="phone"
+              placeholder="2547000000000"
+              name="phone"
+              required
+            />
+            <br />
 
-  <br/>
-      <form action="mpesa.php" method="post">
-      <label >Enter Phone Number: </label>
-      <input class="form-control" type="text" id="phone" placeholder="2547000000000" name="phone" required/><br/>
-      
-      <label >Amount to be paid:</label>
-      <input class="form-control" value= "1200" type="text" name="amt" disabled/><br/>
-  
-    
-      
-    </form>
-  </Modal.Body>
-  <Modal.Footer>
-   
-    <input type="submit" name="submit" class="btn btn-pay" value="Pay" name="btnPay"  onClick={showAlert}></input>
-  </Modal.Footer>
-</Modal>
-     </div>
-      
+            <label>Amount to be paid:</label>
+            <input
+              class="form-control"
+              value="1200"
+              type="text"
+              name="amt"
+              disabled
+            />
+            <br />
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <input
+            type="submit"
+            name="submit"
+            class="btn btn-pay"
+            value="Pay"
+            name="btnPay"
+            onClick={showAlert}
+          ></input>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 };
 //Confirmation message that shows up after payment is sucessful
-function showAlert(){
+function showAlert() {
   Swal.fire({
-      // position: 'top-end',
-      icon: 'success',
-      title: 'Payment Successful',
-      showConfirmButton: false,
-      timer: 1500
-    })
+    // position: 'top-end',
+    icon: "success",
+    title: "Payment Successful",
+    showConfirmButton: false,
+    timer: 1500,
+  });
 }
 
 //Function for routing from one step to the next
@@ -274,7 +292,7 @@ const LinaerStepper = () => {
   const isStepSkipped = (step) => {
     return skippedSteps.includes(step);
   };
-//handles next btn
+  //handles next btn
   const handleNext = (data) => {
     console.log(data);
     if (activeStep == steps.length - 1) {
